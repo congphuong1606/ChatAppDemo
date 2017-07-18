@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AndroidChatExample</string>
+    <string name="login.message.email">nhap email</string>
+    <string name="login.message.password">Nhap mat khau</string>
+    <string name="login.message.signin">Dang nhap</string>
+    <string name="login.message.signup">Dang Ky</string>
+    <string name="note_register">Vui lòng đăng ký email mà bạn sử dụng để đăng ký tài khoản tránh các sự cố về tài khoản</string>
+    <string name="verifiation">Truy cập Email để xác thực tài khoản</string>
+    <string name="msg_login_success">Dang nhap thanh cong</string>
+    <string name="email_error">email khong dung dinh dang</string>
+    <string name="pass_error">mat khau phai lon hon 6 ky tu</string>
+</resources>
