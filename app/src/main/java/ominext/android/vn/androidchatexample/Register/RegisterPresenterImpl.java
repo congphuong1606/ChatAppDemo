@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import ominext.android.vn.androidchatexample.BaseActivity;
 import ominext.android.vn.androidchatexample.Lib.EventBus;
 import ominext.android.vn.androidchatexample.Lib.GreenRobotEventBus;
 import ominext.android.vn.androidchatexample.Register.Event.RegisterEvent;
@@ -15,7 +16,7 @@ import ominext.android.vn.androidchatexample.Register.Ui.RegisterView;
  * Created by MyPC on 18/07/2017.
  */
 
-public class RegisterPresenterImpl implements RegisterPresenter {
+public class RegisterPresenterImpl extends BaseActivity implements RegisterPresenter {
     EventBus eventBus;
     RegisterView registerView;
     RegisterReposistory registerReposistory;
@@ -26,7 +27,8 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     public RegisterPresenterImpl(RegisterView registerView) {
         this.registerView = registerView;
         this.firebaseAuth = FirebaseAuth.getInstance();
-        this.eventBus= GreenRobotEventBus.getInstance();
+        this.eventBus = GreenRobotEventBus.getInstance();
+        registerReposistory = new RegisterReposistoryImpl();
 
     }
 
@@ -41,19 +43,36 @@ public class RegisterPresenterImpl implements RegisterPresenter {
 
 
     @Override
-    public void registerNewUser(String email, String password) {
+    public void onCreate() {
+        eventBus.register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        registerView = null;
+        eventBus.unregister(this);
+    }
+
+    @Override
+    public void registerNewUser(String name,String email, String password, Activity v) {
         if (registerView.onCheckInputData()) {
-            registerReposistory.SignUp(email, password, (Activity)registerView);
+            showProgressDialog("Vui lòng đợi...", (Activity) registerView);
+            registerReposistory.SignUp(name,email, password, v);
         }
     }
+
     @Override
     @Subscribe
     public void onEventMainThread(RegisterEvent event) {
-        switch (event.getEventType()){
+        switch (event.getEventType()) {
             case RegisterEvent.onSignUpSuccess:
-                registerView.onRegisSusscess();
+                if (registerView != null) {
+                    hideProgressDialog();
+                    registerView.onRegisSusscess();
+                }
                 break;
             case RegisterEvent.onSignUpError:
+                hideProgressDialog();
                 registerView.onRegisFail(event.getErrorMesage().toString());
                 break;
         }

@@ -7,5 +7,5 @@ import android.app.Activity;
  */
 
 public interface RegisterReposistory {
-    void SignUp(final String email, final String pass, final Activity view);
+    void SignUp(final String name,final String email, final String pass, final Activity view);
 }

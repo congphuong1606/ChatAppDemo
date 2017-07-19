@@ -9,4 +9,8 @@
     <string name="msg_login_success">Dang nhap thanh cong</string>
     <string name="email_error">email khong dung dinh dang</string>
     <string name="pass_error">mat khau phai lon hon 6 ky tu</string>
+    <string name="login_eror">Dang nhap that bai hay kiem tra lai</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

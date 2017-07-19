@@ -1,5 +1,7 @@
 package ominext.android.vn.androidchatexample.Register;
 
+import android.app.Activity;
+
 import ominext.android.vn.androidchatexample.Register.Event.RegisterEvent;
 
 /**
@@ -7,6 +9,8 @@ import ominext.android.vn.androidchatexample.Register.Event.RegisterEvent;
  */
 
 public interface RegisterPresenter {
-    void registerNewUser(String email, String password);
+    void onCreate();
+    void onDestroy();
+    void registerNewUser(String name,String email, String password, Activity activity);
     void onEventMainThread(RegisterEvent event);
 }

@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,8 +14,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
 
-import ominext.android.vn.androidchatexample.DoMain.FireBaseHelper;
 import ominext.android.vn.androidchatexample.Entities.User;
+import ominext.android.vn.androidchatexample.Instance;
 import ominext.android.vn.androidchatexample.Lib.GreenRobotEventBus;
 import ominext.android.vn.androidchatexample.Register.Event.RegisterEvent;
 
@@ -25,21 +24,18 @@ import ominext.android.vn.androidchatexample.Register.Event.RegisterEvent;
  */
 
 public class RegisterReposistoryImpl implements RegisterReposistory {
-    private FireBaseHelper helper;
     private DatabaseReference mDatabase;
-    private DatabaseReference myUserReference;
     private FirebaseAuth firebaseAuth;
 
 
 
     public RegisterReposistoryImpl() {
-        helper = FireBaseHelper.getInstance();
-        mDatabase = helper.getDataReference();
-        myUserReference = helper.getMyUserReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        firebaseAuth=FirebaseAuth.getInstance();
     }
 
     @Override
-    public void SignUp(String email, String pass, final Activity view) {
+    public void SignUp(final String name, String email, String pass, final Activity view) {
         firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -50,7 +46,9 @@ public class RegisterReposistoryImpl implements RegisterReposistory {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    creadUserDatabase();
+                                    creadUserDatabase(name);
+                                    firebaseAuth.signOut();
+                                    postEvent(RegisterEvent.onSignUpSuccess);
                                 }
                             }
                         });
@@ -66,30 +64,12 @@ public class RegisterReposistoryImpl implements RegisterReposistory {
                 });
     }
 
-    private void creadUserDatabase() {
-        FirebaseUser curenUser = firebaseAuth.getCurrentUser();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        User user = new User(curenUser.getEmail());
-        mDatabase.child(FireBaseHelper.USER_PATH)
-                .child(curenUser.getUid())
-                .setValue(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess (Void aVoid){
-                                postEvent(RegisterEvent.onSignUpSuccess);
-                         //      registerView.onRegisSusscess();
-                            }
-                        })
-                .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure (@NonNull Exception e){
-                                postEvent(RegisterEvent.onSignUpError, e.getMessage());
-                            }
-                        });
-    }
+
     private void postEvent(int type) {
         postEvent(type, null);
     }
+
+
     private void postEvent(int type, String errorMessage) {
         RegisterEvent event = new RegisterEvent();
         event.setEventType(type);
@@ -99,6 +79,11 @@ public class RegisterReposistoryImpl implements RegisterReposistory {
         EventBus eventBus = GreenRobotEventBus.getInstance();
         eventBus.post(event);
     }
+    private void creadUserDatabase(String name) {
+            String id=firebaseAuth.getCurrentUser().getUid();
+            User currentUser = new User(id,name,true, null);
+            mDatabase.child(Instance.USERS_PATH).child(id).setValue(currentUser);
 
+    }
 
 }

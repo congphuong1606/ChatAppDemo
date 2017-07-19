@@ -1,8 +1,10 @@
 package ominext.android.vn.androidchatexample.Register.Ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,14 +14,13 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ominext.android.vn.androidchatexample.BaseActivity;
 import ominext.android.vn.androidchatexample.Login.Ui.LoginActivity;
 import ominext.android.vn.androidchatexample.R;
 import ominext.android.vn.androidchatexample.Register.RegisterPresenter;
 import ominext.android.vn.androidchatexample.Register.RegisterPresenterImpl;
 import ominext.android.vn.androidchatexample.Utils.Util;
 
-public class RegisterActivity extends BaseActivity implements RegisterView {
+public class RegisterActivity extends AppCompatActivity implements RegisterView {
 
     RegisterPresenter registerPresenter;
     @BindView(R.id.tv_email)
@@ -32,8 +33,17 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
     TextView btnResetPassword;
     @BindView(R.id.btn_back_login)
     Button btnBackLogin;
+    @BindView(R.id.tv_user_name)
+    EditText tvUserName;
     private String email;
     private String pass;
+    private String name;
+
+    @Override
+    protected void onDestroy() {
+        registerPresenter.onDestroy();
+        super.onDestroy();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,26 +51,34 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
         registerPresenter = new RegisterPresenterImpl(this);
+        registerPresenter.onCreate();
     }
 
     @Override
     public void onRegisSusscess() {
-        hideProgressDialog();
+        tvUserName.setText("");
         tvEmail.setText("");
         tvPassword.setText("");
         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
         builder.setTitle("Thông Báo");
         builder.setMessage(getResources().getString(R.string.verifiation));
         builder.setIcon(R.drawable.logo_chat);
+        builder.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                finish();
+            }
+        });
         builder.create().show();
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        finish();
-        startActivity(intent);
+
+
     }
 
     @Override
     public boolean onCheckInputData() {
-        if (Util.isEmpty(tvEmail) && Util.isEmpty(tvPassword)) {
+        if (Util.isEmpty(tvEmail) && Util.isEmpty(tvPassword)&&Util.isEmpty(tvUserName)) {
+            name=tvPassword.getText().toString().trim();
             email = tvEmail.getText().toString().trim();
             pass = tvPassword.getText().toString().trim();
             if (!Util.isEmailValid(email)) {
@@ -82,7 +100,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
 
     @Override
     public void onRegisFail(String msg) {
-        hideProgressDialog();
         Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -90,10 +107,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login_email:
-                if (onCheckInputData()) {
-                    showProgressDialog("Vui lòng đợi");
-                    registerPresenter.registerNewUser(email, pass);
-                }
+                name=tvUserName.getText().toString().trim();
+                email = tvEmail.getText().toString().trim();
+                pass = tvPassword.getText().toString().trim();
+                registerPresenter.registerNewUser(name,email, pass, this);
                 break;
             case R.id.btn_reset_password:
                 break;
@@ -103,5 +120,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
                 finish();
                 break;
         }
+    }
+
+    @OnClick(R.id.tv_user_name)
+    public void onViewClicked() {
     }
 }

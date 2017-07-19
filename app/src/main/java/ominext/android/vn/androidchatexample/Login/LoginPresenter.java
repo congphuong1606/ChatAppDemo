@@ -9,10 +9,16 @@ import ominext.android.vn.androidchatexample.Login.Event.LoginEvent;
 public interface LoginPresenter {
     void onSingIn(final String email, final String pass);
 
+    void onCreate();
+
+    void onDestroy();
+
     void onEventMainThead(LoginEvent event);
 
     void addAuth();
 
     void remoteAuth();
+
+
 
 }

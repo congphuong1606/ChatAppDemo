@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContacList.Ui.ContactListActivity" />
+        <activity android:name=".ContacList.Ui.ContactListFragment" />
         <activity android:name=".Login.Ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,8 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Chat.Ui.ChatActivity" />
-        <activity android:name=".Register.Ui.RegisterActivity"></activity>
+        <activity android:name=".Chat.Ui.ChatFragment" />
+        <activity android:name=".Register.Ui.RegisterActivity" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

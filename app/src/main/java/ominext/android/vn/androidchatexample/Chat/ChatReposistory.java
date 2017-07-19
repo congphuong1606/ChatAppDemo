@@ -5,4 +5,8 @@ package ominext.android.vn.androidchatexample.Chat;
  */
 
 public interface ChatReposistory {
+    void changeConnectionStatus(boolean offline);
+    void sendMessage(String msg);
+
+    void setRecipient(String recipient);
 }

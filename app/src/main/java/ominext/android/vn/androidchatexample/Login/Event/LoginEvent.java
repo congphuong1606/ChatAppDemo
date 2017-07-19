@@ -7,6 +7,7 @@ package ominext.android.vn.androidchatexample.Login.Event;
 public class LoginEvent {
    public final static int onSignInSuccess=1;
    public final static int onSignInFail=0;
+    public static final int onFailedToRecoverSession=2;
     private int eventType;
     private String errorMesage;
 

@@ -1,8 +1,14 @@
 package ominext.android.vn.androidchatexample.Chat.Ui;
 
+import ominext.android.vn.androidchatexample.Entities.ChatMessage;
+
 /**
  * Created by MyPC on 18/07/2017.
  */
 
-public class ChatView {
+public interface ChatView {
+    void sendMsg();
+    void msgReceived(ChatMessage msg);
+
+
 }
