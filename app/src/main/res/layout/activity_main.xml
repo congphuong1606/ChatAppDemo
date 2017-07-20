@@ -9,6 +9,8 @@
     android:orientation="vertical"
     tools:context="ominext.android.vn.androidchatexample.Activity.MainActivity.MainActivity">
 
+
+
     <android.support.v4.view.ViewPager
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
@@ -66,6 +68,7 @@
                     android:id="@+id/searchview"
                     android:layout_width="match_parent"
                     android:layout_height="36dp">
+
                 </SearchView>
 
                 <View
@@ -87,6 +90,20 @@
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+    <FrameLayout
+        android:id="@+id/frame_layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#dcbebe"
+        android:layout_marginTop="40dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </FrameLayout>
 
 
 </RelativeLayout>
