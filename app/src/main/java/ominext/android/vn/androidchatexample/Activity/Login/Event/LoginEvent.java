@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Login.Event;
+package ominext.android.vn.androidchatexample.Activity.Login.Event;
 
 /**
  * Created by MyPC on 18/07/2017.

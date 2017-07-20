@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ominext.android.vn.androidchatexample">
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -9,17 +12,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContacList.Ui.ContactListFragment" />
-        <activity android:name=".Login.Ui.LoginActivity">
+        <Fragment android:name=".ContacList.Ui.ContactListFragment" />
+        <activity android:name=".Activity.Login.Ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Chat.Ui.ChatFragment" />
-        <activity android:name=".Register.Ui.RegisterActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <Fragment android:name=".Chat.Ui.ChatFragment" />
+        <activity android:name=".Activity.Register.Ui.RegisterActivity" />
+        <activity android:name=".Activity.MainActivity.MainActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".Activity.MeActivity.Ui.MeActivity"></activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
     </application>
 
 </manifest>

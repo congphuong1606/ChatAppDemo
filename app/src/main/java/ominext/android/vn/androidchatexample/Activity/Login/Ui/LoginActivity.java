@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Login.Ui;
+package ominext.android.vn.androidchatexample.Activity.Login.Ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,11 +13,11 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ominext.android.vn.androidchatexample.Login.LoginPresenter;
-import ominext.android.vn.androidchatexample.Login.LoginPresenterImpl;
-import ominext.android.vn.androidchatexample.MainActivity;
+import ominext.android.vn.androidchatexample.Activity.Login.LoginPresenter;
+import ominext.android.vn.androidchatexample.Activity.Login.LoginPresenterImpl;
+import ominext.android.vn.androidchatexample.Activity.MainActivity.MainActivity;
 import ominext.android.vn.androidchatexample.R;
-import ominext.android.vn.androidchatexample.Register.Ui.RegisterActivity;
+import ominext.android.vn.androidchatexample.Activity.Register.Ui.RegisterActivity;
 import ominext.android.vn.androidchatexample.Utils.Util;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {

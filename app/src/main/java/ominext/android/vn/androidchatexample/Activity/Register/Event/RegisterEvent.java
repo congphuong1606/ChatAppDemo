@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Register.Event;
+package ominext.android.vn.androidchatexample.Activity.Register.Event;
 
 /**
  * Created by MyPC on 18/07/2017.

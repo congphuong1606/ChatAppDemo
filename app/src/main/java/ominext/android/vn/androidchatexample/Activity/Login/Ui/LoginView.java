@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Login.Ui;
+package ominext.android.vn.androidchatexample.Activity.Login.Ui;
 
 /**
  * Created by MyPC on 18/07/2017.

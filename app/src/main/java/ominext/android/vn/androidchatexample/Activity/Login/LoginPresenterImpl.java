@@ -1,7 +1,6 @@
-package ominext.android.vn.androidchatexample.Login;
+package ominext.android.vn.androidchatexample.Activity.Login;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -12,8 +11,8 @@ import org.greenrobot.eventbus.Subscribe;
 import ominext.android.vn.androidchatexample.BaseActivity;
 import ominext.android.vn.androidchatexample.Lib.EventBus;
 import ominext.android.vn.androidchatexample.Lib.GreenRobotEventBus;
-import ominext.android.vn.androidchatexample.Login.Event.LoginEvent;
-import ominext.android.vn.androidchatexample.Login.Ui.LoginView;
+import ominext.android.vn.androidchatexample.Activity.Login.Event.LoginEvent;
+import ominext.android.vn.androidchatexample.Activity.Login.Ui.LoginView;
 
 
 /**
@@ -38,10 +37,12 @@ public class LoginPresenterImpl extends BaseActivity implements LoginPresenter {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     if (user.isEmailVerified()) {
+                        hideProgressDialog();
                         loginView.onVerified();
 
                     } else {
                         firebaseAuth.signOut();
+                        hideProgressDialog();
                         loginView.onViriFail();
 
                     }

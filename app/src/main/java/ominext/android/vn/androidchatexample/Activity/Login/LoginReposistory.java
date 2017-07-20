@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Login;
+package ominext.android.vn.androidchatexample.Activity.Login;
 
 import android.app.Activity;
 

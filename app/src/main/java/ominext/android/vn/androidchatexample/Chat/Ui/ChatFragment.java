@@ -26,7 +26,7 @@ import ominext.android.vn.androidchatexample.Entities.ChatMessage;
 import ominext.android.vn.androidchatexample.R;
 
 public class ChatFragment extends Fragment implements ChatView {
-ChatPresenter chatPresenter;
+    ChatPresenter chatPresenter;
 
     @BindView(R.id.msg_recycler)
     RecyclerView msgRecycler;
@@ -49,23 +49,25 @@ ChatPresenter chatPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        chatPresenter= new ChatPresenterImpl(this);
+
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
         unbinder = ButterKnife.bind(this, view);
         mChats = new ArrayList<>();
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        userID = currentUser.getUid();
+        chatPresenter = new ChatPresenterImpl(this);
         layoutManager = new GridLayoutManager(view.getContext(), 1);
         msgRecycler.setLayoutManager(layoutManager);
         msgRecycler.setHasFixedSize(true);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        userID = currentUser.getUid();
         chatAdapter = new ChatAdapter(mChats, userID);
         msgRecycler.setAdapter(chatAdapter);
+        chatPresenter.notyfiAdapter();
         return view;
     }
 
@@ -80,6 +82,13 @@ ChatPresenter chatPresenter;
     }
 
     @Override
+    public void notyfiAdapter(ChatMessage chatMessage) {
+        mChats.add(chatMessage);
+        msgRecycler.scrollToPosition(mChats.size() - 1);
+        chatAdapter.notifyItemInserted(mChats.size() - 1);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -87,7 +96,7 @@ ChatPresenter chatPresenter;
 
     @OnClick(R.id.btn_send_msg)
     public void onViewClicked() {
-        String msg=edtMsg.getText().toString().trim();
+        String msg = edtMsg.getText().toString().trim();
         if (!msg.isEmpty()) {
             chatPresenter.sendMessage(msg);
             edtMsg.setText("");

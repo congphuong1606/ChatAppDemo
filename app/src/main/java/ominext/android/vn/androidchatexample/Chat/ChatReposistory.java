@@ -9,4 +9,5 @@ public interface ChatReposistory {
     void sendMessage(String msg);
 
     void setRecipient(String recipient);
+
 }

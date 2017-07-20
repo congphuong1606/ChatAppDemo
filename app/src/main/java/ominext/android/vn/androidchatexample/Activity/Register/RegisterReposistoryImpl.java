@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Register;
+package ominext.android.vn.androidchatexample.Activity.Register;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -17,7 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 import ominext.android.vn.androidchatexample.Entities.User;
 import ominext.android.vn.androidchatexample.Instance;
 import ominext.android.vn.androidchatexample.Lib.GreenRobotEventBus;
-import ominext.android.vn.androidchatexample.Register.Event.RegisterEvent;
+import ominext.android.vn.androidchatexample.Activity.Register.Event.RegisterEvent;
 
 /**
  * Created by MyPC on 18/07/2017.
@@ -42,12 +42,11 @@ public class RegisterReposistoryImpl implements RegisterReposistory {
                 if (task.isSuccessful()) {
                     final FirebaseUser userFB = task.getResult().getUser();
                     if (userFB != null) {
+                        creadUserDatabase(name);
                         userFB.sendEmailVerification().addOnCompleteListener(view, new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    creadUserDatabase(name);
-                                    firebaseAuth.signOut();
                                     postEvent(RegisterEvent.onSignUpSuccess);
                                 }
                             }
@@ -81,7 +80,8 @@ public class RegisterReposistoryImpl implements RegisterReposistory {
     }
     private void creadUserDatabase(String name) {
             String id=firebaseAuth.getCurrentUser().getUid();
-            User currentUser = new User(id,name,true, null);
+        String email=firebaseAuth.getCurrentUser().getEmail();
+            User currentUser = new User(id,name,email,null,null,true, null);
             mDatabase.child(Instance.USERS_PATH).child(id).setValue(currentUser);
 
     }

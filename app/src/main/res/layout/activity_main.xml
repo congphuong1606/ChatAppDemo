@@ -4,23 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="ominext.android.vn.androidchatexample.Activity.MainActivity.MainActivity">
 
-    tools:context="ominext.android.vn.androidchatexample.MainActivity">
     <android.support.v4.view.ViewPager
-        android:layout_marginBottom="?actionBarSize"
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true">
+        android:layout_above="@+id/navigation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:animateLayoutChanges="true"
+        android:background="@drawable/backgroud_content"
+        tools:ignore="UnknownId">
+
     </android.support.v4.view.ViewPager>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:background="#e9e6e6"
         app:itemIconTint="#16187e"
         app:itemTextColor="#163189"
         app:menu="@menu/navigation_bar_menu" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/backroudtoolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ic_me"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/logo_chat" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@+id/btn_creat_new_chat"
+                android:layout_toRightOf="@id/ic_me"
+                android:orientation="vertical">
+
+                <SearchView
+
+                    android:id="@+id/searchview"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp">
+                </SearchView>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="30dp"
+                    android:background="#fd1717" />
+            </LinearLayout>
+
+
+            <ImageButton
+                android:id="@+id/btn_creat_new_chat"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/ic_creat" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+
 </RelativeLayout>

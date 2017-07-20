@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Register;
+package ominext.android.vn.androidchatexample.Activity.Register;
 
 import android.app.Activity;
 
@@ -9,8 +9,8 @@ import org.greenrobot.eventbus.Subscribe;
 import ominext.android.vn.androidchatexample.BaseActivity;
 import ominext.android.vn.androidchatexample.Lib.EventBus;
 import ominext.android.vn.androidchatexample.Lib.GreenRobotEventBus;
-import ominext.android.vn.androidchatexample.Register.Event.RegisterEvent;
-import ominext.android.vn.androidchatexample.Register.Ui.RegisterView;
+import ominext.android.vn.androidchatexample.Activity.Register.Event.RegisterEvent;
+import ominext.android.vn.androidchatexample.Activity.Register.Ui.RegisterView;
 
 /**
  * Created by MyPC on 18/07/2017.

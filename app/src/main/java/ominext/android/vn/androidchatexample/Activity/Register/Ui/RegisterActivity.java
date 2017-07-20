@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Register.Ui;
+package ominext.android.vn.androidchatexample.Activity.Register.Ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ominext.android.vn.androidchatexample.Login.Ui.LoginActivity;
+import ominext.android.vn.androidchatexample.Activity.Login.Ui.LoginActivity;
 import ominext.android.vn.androidchatexample.R;
-import ominext.android.vn.androidchatexample.Register.RegisterPresenter;
-import ominext.android.vn.androidchatexample.Register.RegisterPresenterImpl;
+import ominext.android.vn.androidchatexample.Activity.Register.RegisterPresenter;
+import ominext.android.vn.androidchatexample.Activity.Register.RegisterPresenterImpl;
 import ominext.android.vn.androidchatexample.Utils.Util;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView {

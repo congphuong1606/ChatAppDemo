@@ -6,3 +6,6 @@ package ominext.android.vn.androidchatexample.ChatRoom;
 
 public class ChatRoomView {
 }
+
+
+

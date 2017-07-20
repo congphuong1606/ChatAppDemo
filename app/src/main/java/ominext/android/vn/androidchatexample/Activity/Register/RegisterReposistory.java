@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Register;
+package ominext.android.vn.androidchatexample.Activity.Register;
 
 import android.app.Activity;
 

@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Login;
+package ominext.android.vn.androidchatexample.Activity.Login;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 import ominext.android.vn.androidchatexample.Lib.Event;
-import ominext.android.vn.androidchatexample.Login.Event.LoginEvent;
+import ominext.android.vn.androidchatexample.Activity.Login.Event.LoginEvent;
 
 /**
  * Created by MyPC on 18/07/2017.
@@ -27,8 +27,6 @@ public class LoginReposistroryImpl implements LoginReposistory {
         event = new Event();
         firebaseAuth = FirebaseAuth.getInstance();
 
-
-
     }
 
     @Override
@@ -36,6 +34,7 @@ public class LoginReposistroryImpl implements LoginReposistory {
         firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
                 event.postEvent(LoginEvent.onSignInSuccess);
             }
         }).addOnFailureListener(activity, new OnFailureListener() {

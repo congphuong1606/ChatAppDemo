@@ -1,8 +1,8 @@
-package ominext.android.vn.androidchatexample.Register;
+package ominext.android.vn.androidchatexample.Activity.Register;
 
 import android.app.Activity;
 
-import ominext.android.vn.androidchatexample.Register.Event.RegisterEvent;
+import ominext.android.vn.androidchatexample.Activity.Register.Event.RegisterEvent;
 
 /**
  * Created by MyPC on 18/07/2017.

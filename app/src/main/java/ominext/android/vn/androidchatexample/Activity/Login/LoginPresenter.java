@@ -1,6 +1,6 @@
-package ominext.android.vn.androidchatexample.Login;
+package ominext.android.vn.androidchatexample.Activity.Login;
 
-import ominext.android.vn.androidchatexample.Login.Event.LoginEvent;
+import ominext.android.vn.androidchatexample.Activity.Login.Event.LoginEvent;
 
 /**
  * Created by MyPC on 18/07/2017.

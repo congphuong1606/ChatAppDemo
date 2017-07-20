@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_vertical"
-    tools:context="ominext.android.vn.androidchatexample.Register.Ui.RegisterActivity">
+    tools:context=".Activity.Register.Ui.RegisterActivity">
 
     <LinearLayout
 
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="tên tài khoản"
-                android:maxLength="10"
+                android:maxLength="12"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout

@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Register.Ui;
+package ominext.android.vn.androidchatexample.Activity.Register.Ui;
 
 /**
  * Created by MyPC on 18/07/2017.

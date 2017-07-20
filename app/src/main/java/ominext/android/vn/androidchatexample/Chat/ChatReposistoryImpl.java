@@ -19,26 +19,17 @@ import ominext.android.vn.androidchatexample.Instance;
  */
 
 public class ChatReposistoryImpl implements ChatReposistory {
+    private final String CurentID;
     DatabaseReference mDatabase;
     private ChildEventListener childEventListener;
     DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child(Instance.USERS_PATH);
+
 
     private String name;
 
     public ChatReposistoryImpl() {
         this.mDatabase = FirebaseDatabase.getInstance().getReference();
-
-    }
-
-    @Override
-    public void changeConnectionStatus(boolean offline) {
-
-    }
-
-    @Override
-    public void sendMessage(String msg) {
-
-        String CurentID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        CurentID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference reference = mRef.child(CurentID);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -52,16 +43,27 @@ public class ChatReposistoryImpl implements ChatReposistory {
 
             }
         });
+    }
+
+    @Override
+    public void changeConnectionStatus(boolean offline) {
+
+    }
+
+    @Override
+    public void sendMessage(String msg) {
         String sender =name+"";
-        String idChat = CurentID + System.currentTimeMillis() + "";
+        String idChat = CurentID;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = df.format(System.currentTimeMillis());
         ChatMessage chat = new ChatMessage(idChat, msg, sender, time);
-        mDatabase.child(Instance.CHATS_PATH).child(idChat).setValue(chat);
+        mDatabase.child(Instance.CHATS_PATH).push().setValue(chat);
     }
 
     @Override
     public void setRecipient(String recipient) {
 
     }
+
+
 }

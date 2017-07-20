@@ -14,4 +14,5 @@ public interface ChatPresenter {
     void setChatRecipient(String recipient);
     void sendMessage(String msg);
     void onEventMainThread(ChatEvent event);
+    void notyfiAdapter();
 }
