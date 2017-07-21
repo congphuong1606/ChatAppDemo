@@ -87,7 +87,7 @@ public class MeActivityPresenterImpl implements MeActivityPresenter {
     @Override
     public void updateUser(String downloadUrl) {
         mDatabase.child(Instance.USERS_PATH).child(id).child("avatar").setValue(downloadUrl);
-        meActivityView.onUploadSuccess(downloadUrl);
+        meActivityView.onUploadAvatarSuccess(downloadUrl);
     }
 
     @Override

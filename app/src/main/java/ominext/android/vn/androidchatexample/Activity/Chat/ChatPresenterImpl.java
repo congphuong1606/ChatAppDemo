@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Chat;
+package ominext.android.vn.androidchatexample.Activity.Chat;
 
 import android.util.Log;
 
@@ -10,8 +10,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import ominext.android.vn.androidchatexample.Chat.Event.ChatEvent;
-import ominext.android.vn.androidchatexample.Chat.Ui.ChatView;
+import ominext.android.vn.androidchatexample.Activity.Chat.Event.ChatEvent;
+import ominext.android.vn.androidchatexample.Activity.Chat.Ui.ChatView;
 import ominext.android.vn.androidchatexample.Entities.ChatMessage;
 import ominext.android.vn.androidchatexample.Entities.User;
 import ominext.android.vn.androidchatexample.Instance;
@@ -31,12 +31,14 @@ public class ChatPresenterImpl implements ChatPresenter {
     DatabaseReference mRefChat = FirebaseDatabase
             .getInstance().getReference()
             .child(Instance.CHATS_PATH);
+
     public ChatPresenterImpl(ChatView chatView) {
         this.chatView = chatView;
-        chatReposistory=new ChatReposistoryImpl();
+        chatReposistory = new ChatReposistoryImpl();
         eventBus = GreenRobotEventBus.getInstance();
 
     }
+
     @Override
     public void onPause() {
         chatReposistory.changeConnectionStatus(User.OFFLINE);
@@ -71,48 +73,52 @@ public class ChatPresenterImpl implements ChatPresenter {
     @Override
     @Subscribe
     public void onEventMainThread(ChatEvent event) {
+
         if (chatView != null) {
             ChatMessage msg = event.getMessage();
             chatView.msgReceived(msg);
         }
+
     }
+
 
     @Override
     public void notyfiAdapter() {
-            mRefChat.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                        try {
-                            ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
-                            chatView.notyfiAdapter(chatMessage);
+        mRefChat.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    try {
+                        ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
+                        chatView.notyfiAdapter(chatMessage);
 
-                        } catch (Exception ex) {
-                            Log.e(TAG, ex.getMessage());
-                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, ex.getMessage());
                     }
                 }
+            }
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
+            }
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                }
+            }
 
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                }
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+            }
+        });
 
     }
+
 }

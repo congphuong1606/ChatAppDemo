@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import ominext.android.vn.androidchatexample.Chat.Ui.ChatFragment;
-import ominext.android.vn.androidchatexample.ChatRoom.Ui.ChatRoomFragment;
-import ominext.android.vn.androidchatexample.ContacList.Ui.ContactListFragment;
+import ominext.android.vn.androidchatexample.Activity.Chat.Ui.ChatFragment;
+import ominext.android.vn.androidchatexample.Activity.Contact.Ui.ContactFragment;
+import ominext.android.vn.androidchatexample.Activity.Home.Ui.HomeFragment;
 
 /**
  * Created by MyPC on 19/07/2017.
@@ -21,9 +21,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return ContactListFragment.newInstance();
+                return HomeFragment.newInstance();
             case 1:
-                return ChatRoomFragment.newInstance();
+                return ContactFragment.newInstance();
 
             case 2:
                 return ChatFragment.newInstance();

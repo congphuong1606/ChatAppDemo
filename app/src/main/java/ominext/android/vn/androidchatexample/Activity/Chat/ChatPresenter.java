@@ -1,6 +1,6 @@
-package ominext.android.vn.androidchatexample.Chat;
+package ominext.android.vn.androidchatexample.Activity.Chat;
 
-import ominext.android.vn.androidchatexample.Chat.Event.ChatEvent;
+import ominext.android.vn.androidchatexample.Activity.Chat.Event.ChatEvent;
 
 /**
  * Created by MyPC on 18/07/2017.
@@ -15,4 +15,5 @@ public interface ChatPresenter {
     void sendMessage(String msg);
     void onEventMainThread(ChatEvent event);
     void notyfiAdapter();
+
 }

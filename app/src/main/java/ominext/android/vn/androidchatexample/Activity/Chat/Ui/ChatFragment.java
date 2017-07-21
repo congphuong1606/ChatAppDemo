@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Chat.Ui;
+package ominext.android.vn.androidchatexample.Activity.Chat.Ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -20,14 +19,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ominext.android.vn.androidchatexample.Adapter.ChatAdapter;
-import ominext.android.vn.androidchatexample.Chat.ChatPresenter;
-import ominext.android.vn.androidchatexample.Chat.ChatPresenterImpl;
+import ominext.android.vn.androidchatexample.Activity.Chat.ChatPresenter;
+import ominext.android.vn.androidchatexample.Activity.Chat.ChatPresenterImpl;
 import ominext.android.vn.androidchatexample.Entities.ChatMessage;
 import ominext.android.vn.androidchatexample.R;
 
 public class ChatFragment extends Fragment implements ChatView {
     ChatPresenter chatPresenter;
-
     @BindView(R.id.msg_recycler)
     RecyclerView msgRecycler;
     @BindView(R.id.edt_msg)
@@ -38,9 +36,6 @@ public class ChatFragment extends Fragment implements ChatView {
     RecyclerView.LayoutManager layoutManager;
     private ChatAdapter chatAdapter;
     private ArrayList<ChatMessage> mChats;
-    private String mId;
-    private FirebaseUser currentUser;
-    private String userID;
 
     public static ChatFragment newInstance() {
         ChatFragment fragment = new ChatFragment();
@@ -60,15 +55,19 @@ public class ChatFragment extends Fragment implements ChatView {
         unbinder = ButterKnife.bind(this, view);
         mChats = new ArrayList<>();
         chatPresenter = new ChatPresenterImpl(this);
-        layoutManager = new GridLayoutManager(view.getContext(), 1);
+        setAdapter(view);
+
+        return view;
+    }
+
+    private void setAdapter(View v) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        layoutManager = new GridLayoutManager(v.getContext(), 1);
         msgRecycler.setLayoutManager(layoutManager);
         msgRecycler.setHasFixedSize(true);
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        userID = currentUser.getUid();
-        chatAdapter = new ChatAdapter(mChats, userID);
+        chatAdapter = new ChatAdapter(mChats, firebaseAuth.getCurrentUser().getUid());
         msgRecycler.setAdapter(chatAdapter);
         chatPresenter.notyfiAdapter();
-        return view;
     }
 
     @Override
@@ -87,6 +86,7 @@ public class ChatFragment extends Fragment implements ChatView {
         msgRecycler.scrollToPosition(mChats.size() - 1);
         chatAdapter.notifyItemInserted(mChats.size() - 1);
     }
+
 
     @Override
     public void onDestroyView() {

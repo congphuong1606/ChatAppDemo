@@ -7,6 +7,6 @@ package ominext.android.vn.androidchatexample.Activity.MeActivity.Ui;
 public interface MeActivityView {
     void onSignOutSuccess() ;
     void onUpLoadFail(String msg);
-    void onUploadSuccess(String string);
+    void onUploadAvatarSuccess(String string);
     void onUploadActivitySuccess(String avatar, String name, String phone,String email);
 }

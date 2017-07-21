@@ -7,9 +7,9 @@ package ominext.android.vn.androidchatexample.Activity.Register.Event;
 public class RegisterEvent {
     public final static int onSignUpSuccess = 1;
     public final static int onSignUpError = 0;
-    private int eventType;
-    private String errorMesage;
 
+    private String errorMesage;
+    private int eventType;
     public int getEventType() {
         return eventType;
     }

@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Activity.MainActivity;
+package ominext.android.vn.androidchatexample.Activity.MainActivity.Ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,34 +10,27 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.SearchView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import ominext.android.vn.androidchatexample.Activity.MainActivity.MainPresenter;
+import ominext.android.vn.androidchatexample.Activity.MainActivity.MainPresenterImpl;
 import ominext.android.vn.androidchatexample.Activity.MeActivity.Ui.MeActivity;
 import ominext.android.vn.androidchatexample.Adapter.FragmentAdapter;
-import ominext.android.vn.androidchatexample.Adapter.SearchAdapter;
+import ominext.android.vn.androidchatexample.Adapter.UserAdapter;
 import ominext.android.vn.androidchatexample.Entities.User;
-import ominext.android.vn.androidchatexample.Instance;
 import ominext.android.vn.androidchatexample.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
     @BindView(R.id.frame_layout)
     ViewPager frameLayout;
     @BindView(R.id.navigation)
@@ -46,33 +39,42 @@ public class MainActivity extends AppCompatActivity {
     Toolbar mainToolbar;
     @BindView(R.id.ic_me)
     CircleImageView icMe;
-    @BindView(R.id.searchview)
-    SearchView searchview;
     @BindView(R.id.btn_creat_new_chat)
     ImageButton btnCreatNewChat;
     @BindView(R.id.rcv_search_view)
     RecyclerView rcvSearchView;
     @BindView(R.id.frame_layout_search)
     FrameLayout frameLayoutSearch;
+    @BindView(R.id.searchview)
+    android.widget.SearchView searchview;
+
     private FragmentAdapter adapter;
     FirebaseAuth firebaseAuth;
     ArrayList<User> users = new ArrayList<>();
-    SearchAdapter searchAdapter;
+    UserAdapter userAdapter;
     RecyclerView.LayoutManager layoutManager;
+    MainPresenter mainPresenter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        toobar();
-        rcvSearchViewInit();
-        frameLayoutSearch.setVisibility(View.GONE);
         firebaseAuth = FirebaseAuth.getInstance();
+        ButterKnife.bind(this);
+        mainPresenter = new MainPresenterImpl(this);
+        mainPresenter.onUpdateMainView();
+        rcvSearchViewInit();
+        toobar();
         adapter = new FragmentAdapter(getSupportFragmentManager());
         frameLayout.setAdapter(adapter);
         frameLayout.setCurrentItem(0);
+        setFragment();
+        searchviewUser();
+
+    }
+
+    private void setFragment() {
         navigation.setSelectedItemId(R.id.contact);
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -92,7 +94,10 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 });
-        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    }
+
+    private void searchviewUser() {
+        searchview.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
@@ -100,43 +105,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-
-                DatabaseReference mFirebaseDatabase;
-                mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
-                String id = firebaseAuth.getCurrentUser().getUid();
-                DatabaseReference reference = mFirebaseDatabase.child(Instance.USERS_PATH);
-                Query query = reference.orderByChild("name")
-                        .startAt(s).endAt(s + "\uf8ff");
-
-                query.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot != null) {
-                            frameLayoutSearch.setVisibility(View.VISIBLE);
-                            users.clear();
-                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                                User user = postSnapshot.getValue(User.class);
-                                String id = user.getId();
-                                String name = user.getName();
-                                String email=user.getEmail();
-                                String avatar = user.getAvatar();
-                                String phone = user.getPhoneNumber();
-                                boolean online = user.isOnline();
-                                Map<String, Boolean> contacts = user.getContacts();
-                                users.add(new User(id,name,email,avatar,phone,online,contacts));
-                            }
-                            searchAdapter.notifyDataSetChanged();
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                mainPresenter.onSearchUser(s,users);
                 return true;
-
             }
         });
     }
@@ -145,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new GridLayoutManager(this, 1);
         rcvSearchView.setLayoutManager(layoutManager);
         rcvSearchView.setHasFixedSize(true);
-        searchAdapter = new SearchAdapter(this, R.layout.item_user_searched, users);
-        rcvSearchView.setAdapter(searchAdapter);
+        userAdapter = new UserAdapter(this, R.layout.item_user_searched, users);
+        rcvSearchView.setAdapter(userAdapter);
     }
 
     private void toobar() {
@@ -160,4 +130,13 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void updateSuccess(String avatar) {
+        Glide.with(getApplicationContext()).load(avatar).into(icMe);
+    }
+
+    @Override
+    public void onSearchSuccess(ArrayList<User> users) {
+        userAdapter.notifyDataSetChanged();
+    }
 }

@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Chat;
+package ominext.android.vn.androidchatexample.Activity.Chat;
 
 /**
  * Created by MyPC on 18/07/2017.
@@ -7,7 +7,5 @@ package ominext.android.vn.androidchatexample.Chat;
 public interface ChatReposistory {
     void changeConnectionStatus(boolean offline);
     void sendMessage(String msg);
-
     void setRecipient(String recipient);
-
 }

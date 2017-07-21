@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:layout_marginTop="20dp"
     android:background="#f5ebcf"
 
-    tools:context="ominext.android.vn.androidchatexample.Chat.Ui.ChatFragment">
+    tools:context=".Activity.Chat.Ui.ChatFragment">
 
 
     <RelativeLayout

@@ -22,11 +22,11 @@ import ominext.android.vn.androidchatexample.R;
  * Created by MyPC on 20/07/2017.
  */
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final Context context;
     ArrayList<User> users = new ArrayList<>();
 
-    public SearchAdapter(Context context, int layout, ArrayList<User> users) {
+    public UserAdapter(Context context, int layout, ArrayList<User> users) {
         this.users = users;
         this.context = context;
     }

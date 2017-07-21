@@ -4,14 +4,15 @@
 
     <item
         android:id="@+id/contact"
-        android:icon="@drawable/contact"
-        android:title="danh sách" />
-    <item
-        android:id="@+id/itchatgroup"
-        android:icon="@drawable/chatgroup"
-        android:title="chát nhóm" />
+        android:icon="@drawable/ic_home"
+        android:title="trang chủ" />
     <item
         android:id="@+id/itchat"
         android:icon="@drawable/chat"
         android:title="tin nhắn" />
+    <item
+        android:id="@+id/itchatgroup"
+        android:icon="@drawable/chatgroup"
+        android:title="Danh bạ" />
+
 </menu>

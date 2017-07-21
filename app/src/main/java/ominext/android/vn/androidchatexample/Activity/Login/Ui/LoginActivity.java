@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ominext.android.vn.androidchatexample.Activity.Login.LoginPresenter;
 import ominext.android.vn.androidchatexample.Activity.Login.LoginPresenterImpl;
-import ominext.android.vn.androidchatexample.Activity.MainActivity.MainActivity;
+import ominext.android.vn.androidchatexample.Activity.MainActivity.Ui.MainActivity;
 import ominext.android.vn.androidchatexample.R;
 import ominext.android.vn.androidchatexample.Activity.Register.Ui.RegisterActivity;
 import ominext.android.vn.androidchatexample.Utils.Util;

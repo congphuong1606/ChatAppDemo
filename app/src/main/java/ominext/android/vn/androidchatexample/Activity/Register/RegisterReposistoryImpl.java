@@ -12,24 +12,24 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.greenrobot.eventbus.EventBus;
-
+import ominext.android.vn.androidchatexample.Activity.Register.Event.RegisterEvent;
 import ominext.android.vn.androidchatexample.Entities.User;
 import ominext.android.vn.androidchatexample.Instance;
-import ominext.android.vn.androidchatexample.Lib.GreenRobotEventBus;
-import ominext.android.vn.androidchatexample.Activity.Register.Event.RegisterEvent;
+import ominext.android.vn.androidchatexample.Lib.Event;
 
 /**
  * Created by MyPC on 18/07/2017.
  */
 
 public class RegisterReposistoryImpl implements RegisterReposistory {
+    private final Event event;
     private DatabaseReference mDatabase;
     private FirebaseAuth firebaseAuth;
 
 
 
     public RegisterReposistoryImpl() {
+        event = new Event();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseAuth=FirebaseAuth.getInstance();
     }
@@ -47,7 +47,7 @@ public class RegisterReposistoryImpl implements RegisterReposistory {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    postEvent(RegisterEvent.onSignUpSuccess);
+                                    event.postEvent(RegisterEvent.onSignUpSuccess);
                                 }
                             }
                         });
@@ -58,26 +58,11 @@ public class RegisterReposistoryImpl implements RegisterReposistory {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        postEvent(RegisterEvent.onSignUpError, e.getMessage());
+                        event.postEvent(RegisterEvent.onSignUpError, e.getMessage());
                     }
                 });
     }
 
-
-    private void postEvent(int type) {
-        postEvent(type, null);
-    }
-
-
-    private void postEvent(int type, String errorMessage) {
-        RegisterEvent event = new RegisterEvent();
-        event.setEventType(type);
-        if (errorMessage != null) {
-            event.setErrorMesage(errorMessage);
-        }
-        EventBus eventBus = GreenRobotEventBus.getInstance();
-        eventBus.post(event);
-    }
     private void creadUserDatabase(String name) {
             String id=firebaseAuth.getCurrentUser().getUid();
         String email=firebaseAuth.getCurrentUser().getEmail();

@@ -1,10 +1,10 @@
-package ominext.android.vn.androidchatexample.ContacList.Event;
+package ominext.android.vn.androidchatexample.Activity.Home.Event;
 
 /**
  * Created by MyPC on 18/07/2017.
  */
 
-public class ContactListEvent {
+public class HomeEvent {
     boolean error = false;
 
     public boolean isError() {

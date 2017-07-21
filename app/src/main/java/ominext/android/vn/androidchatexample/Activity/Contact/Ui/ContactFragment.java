@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.ChatRoom.Ui;
+package ominext.android.vn.androidchatexample.Activity.Contact.Ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import ominext.android.vn.androidchatexample.R;
 
 
-public class ChatRoomFragment extends Fragment {
+public class ContactFragment extends Fragment {
 
 
-    public static ChatRoomFragment newInstance() {
-        ChatRoomFragment fragment = new ChatRoomFragment();
+    public static ContactFragment newInstance() {
+        ContactFragment fragment = new ContactFragment();
         return fragment;
     }
 
@@ -26,8 +26,7 @@ public class ChatRoomFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_room, container, false);
+        return inflater.inflate(R.layout.fragment_contact, container, false);
     }
 
 }

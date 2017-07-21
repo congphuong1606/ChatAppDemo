@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Chat.Ui;
+package ominext.android.vn.androidchatexample.Activity.Chat.Ui;
 
 import ominext.android.vn.androidchatexample.Entities.ChatMessage;
 
@@ -10,4 +10,5 @@ public interface ChatView {
     void sendMsg();
     void msgReceived(ChatMessage msg);
     void notyfiAdapter(ChatMessage chatMessage);
+
 }

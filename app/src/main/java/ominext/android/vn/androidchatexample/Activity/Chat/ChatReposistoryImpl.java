@@ -1,4 +1,4 @@
-package ominext.android.vn.androidchatexample.Chat;
+package ominext.android.vn.androidchatexample.Activity.Chat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -43,6 +43,7 @@ public class ChatReposistoryImpl implements ChatReposistory {
 
             }
         });
+
     }
 
     @Override
@@ -64,6 +65,4 @@ public class ChatReposistoryImpl implements ChatReposistory {
     public void setRecipient(String recipient) {
 
     }
-
-
 }

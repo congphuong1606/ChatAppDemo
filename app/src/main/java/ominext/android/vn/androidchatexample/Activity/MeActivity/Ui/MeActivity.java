@@ -2,34 +2,29 @@ package ominext.android.vn.androidchatexample.Activity.MeActivity.Ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ominext.android.vn.androidchatexample.Activity.Login.Ui.LoginActivity;
-import ominext.android.vn.androidchatexample.Activity.MainActivity.MainActivity;
+import ominext.android.vn.androidchatexample.Activity.MainActivity.Ui.MainActivity;
 import ominext.android.vn.androidchatexample.Activity.MeActivity.MeActivityPresenter;
 import ominext.android.vn.androidchatexample.Activity.MeActivity.MeActivityPresenterImpl;
 import ominext.android.vn.androidchatexample.R;
@@ -54,6 +49,8 @@ public class MeActivity extends AppCompatActivity implements MeActivityView {
     TextView tvName;
     @BindView(R.id.tv_email_user)
     TextView tvEmail;
+    @BindView(R.id.progress_avatar)
+    ProgressBar progressAvatar;
 
 
     @Override
@@ -61,6 +58,7 @@ public class MeActivity extends AppCompatActivity implements MeActivityView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me);
         ButterKnife.bind(this);
+        progressAvatar.setVisibility(View.GONE);
         meActivityPresenter = new MeActivityPresenterImpl(this);
         meActivityPresenter.onUpdateActivity();
         toobar();
@@ -72,7 +70,7 @@ public class MeActivity extends AppCompatActivity implements MeActivityView {
     }
 
     @OnClick({R.id.tv_dang_xuat, R.id.civ_back_home, R.id.imv_avatar
-            , R.id.tv_email_user,R.id.tv_name, R.id.tv_number, R.id.tv_pass})
+            , R.id.tv_email_user, R.id.tv_name, R.id.tv_number, R.id.tv_pass})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_name:
@@ -122,24 +120,40 @@ public class MeActivity extends AppCompatActivity implements MeActivityView {
 
     private void takePicture() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this
-                        ,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
 
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
+//            File photoFile = null;
+//            try {
+//                photoFile = createImageFile();
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//            if (photoFile != null) {
+//                Uri photoURI = FileProvider.getUriForFile(this,
+//                        "com.example.android.fileprovider",
+//                        photoFile);
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+//            }
+//        }
+
     }
+//    private File createImageFile() throws IOException {
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,
+//                ".jpg",
+//                storageDir
+//        );
+//        mCurrentPhotoPath = image.getAbsolutePath();
+//        return image;
+//    }
 
     private void chossePhoto() {
         startActivityForResult(new Intent(Intent.ACTION_PICK,
@@ -159,13 +173,13 @@ public class MeActivity extends AppCompatActivity implements MeActivityView {
     }
 
     @Override
-    public void onUploadSuccess(String downloadUrl) {
-        Glide.with(this).load(downloadUrl).into(imvAvatar);
-        Toast.makeText(this, downloadUrl, Toast.LENGTH_SHORT).show();
+    public void onUploadAvatarSuccess(String downloadUrl) {
+        progressAvatar.setVisibility(View.GONE);
+        Glide.with(getApplicationContext()).load(downloadUrl).into(imvAvatar);
     }
 
     @Override
-    public void onUploadActivitySuccess(String avatar, String name, String phone,String email) {
+    public void onUploadActivitySuccess(String avatar, String name, String phone, String email) {
         if (avatar != null) {
             Glide.with(this).load(avatar).into(imvAvatar);
         }
@@ -173,57 +187,38 @@ public class MeActivity extends AppCompatActivity implements MeActivityView {
             tvNumber.setText("số điện thoại: " + phone);
         }
         tvName.setText("-<- " + name + " ->--");
-        tvEmail.setText("email: "+email);
+        tvEmail.setText("email: " + email);
     }
 
-    String mCurrentPhotoPath;
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
+            Bitmap bitmap=null;
+            progressAvatar.setVisibility(View.VISIBLE);
             if (requestCode == REQUEST_TAKE_PHOTO) {
-                if (mCurrentPhotoPath != null) {
-                    meActivityPresenter.uploadUserAvatar(mCurrentPhotoPath);
-                }
+                Bundle extras = data.getExtras();
+                bitmap = (Bitmap) extras.get("data");
             } else if (requestCode == REQUEST_CHOOSE_PHOTO && data != null) {
                 Uri uri = data.getData();
-                Bitmap bitmap=null;
                 try {
-                    bitmap= MediaStore.Images.Media.getBitmap(
+                    bitmap = MediaStore.Images.Media.getBitmap(
                             this.getContentResolver(), uri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ByteArrayOutputStream imageByte = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 70, imageByte);
-                byte[] b = imageByte.toByteArray();
-                meActivityPresenter.uploadUserAvatar(b);
-
 
             }
+            ByteArrayOutputStream imageByte = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, imageByte);
+            byte[] b = imageByte.toByteArray();
+            meActivityPresenter.uploadUserAvatar(b);
+
 
         }
 
     }
 
-    private String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
 
 
 }
